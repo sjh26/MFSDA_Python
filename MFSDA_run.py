@@ -24,6 +24,8 @@ import timeit
 import vtk
 import argparse
 import os
+import json
+
 """
 installed all the libraries above
 """
@@ -34,7 +36,7 @@ parser.add_argument('--coordData', type=str, help='filename, .vtk shape template
 parser.add_argument('--covariate', type=str, help='filename, with covariates dim = n x p0 (comma separated or tabulation, without header)', required=True)
 #parser.add_argument('--covariateInterest', type=str, help='filename (dim = 1xp0 vector comma separated, 1 or 0 value to indicate/activate covariate of interest)', required=True)
 parser.add_argument('--covariateType', help='filename, dim=1xsum(covariateInterest) vector comma separated, 1 or 0 to indicate type of covariate double or int', required=True)
-parser.add_argument('--outputDir', help='output directory', default='./out')
+parser.add_argument('--outputDir', help='output directory', default='./output')
 
 def run_script(args):
     """
@@ -127,12 +129,25 @@ def run_script(args):
 
     """+++++++++++++++++++++++++++++++++++"""
     """Step3. Save all the results"""
-    gpvals_file_name = os.path.join(args.outputDir, "global_pvalue.txt")
-    np.savetxt(gpvals_file_name, gpvals)
-    lpvals_fdr_file_name = os.path.join(args.outputDir, "local_pvalue_fdr.txt")
-    np.savetxt(lpvals_fdr_file_name, lpvals_fdr)
-    clu_pvals_file_name = os.path.join(args.outputDir, "cluster_pvalue.txt")
-    np.savetxt(clu_pvals_file_name, clu_pvals)
+
+    if not os.path.exists(args.outputDir):
+        os.makedirs(args.outputDir)
+
+    pvalues = {}
+    pvalues['Gpvals'] = gpvals.tolist()
+    pvalues['clu_pvals'] = clu_pvals.tolist()
+    pvalues['Lpvals_fdr'] = lpvals_fdr.tolist()
+
+    with open(os.path.join(args.outputDir,'pvalues.json'), 'w') as outfile:
+        json.dump(pvalues, outfile)
+
+    efit = {}
+    efit['efitBetas'] = efit_beta.tolist()
+    efit['efitYdesign'] = efity_design.tolist()
+    efit['efitEtas'] = efit_eta.tolist()
+
+    with open(os.path.join(args.outputDir,'efit.json'), 'w') as outfile:
+        json.dump(efit, outfile)
 
 if __name__ == '__main__':
         
