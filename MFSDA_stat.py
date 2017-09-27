@@ -80,4 +80,4 @@ def run_stats(y_design, coord_mat, design_data, var_type):
     delta_time = str(stop - start)
     print("Elapsed time is " + delta_time)
 
-    return gpvals, lpvals_fdr, clu_pvals
+    return gpvals, lpvals_fdr, clu_pvals, efit_beta, efity_design, efit_eta

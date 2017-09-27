@@ -123,7 +123,7 @@ def run_script(args):
     """+++++++++++++++++++++++++++++++++++"""
     """Step 2. Statistical analysis: including (1) smoothing and (2) hypothesis testing"""
 
-    gpvals, lpvals_fdr, clu_pvals = mfsda.run_stats(y_design, coord_mat, design_data, var_type)
+    gpvals, lpvals_fdr, clu_pvals, efit_beta, efity_design, efit_eta = mfsda.run_stats(y_design, coord_mat, design_data, var_type)
 
     """+++++++++++++++++++++++++++++++++++"""
     """Step3. Save all the results"""
