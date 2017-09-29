@@ -16,9 +16,6 @@ from stat_lpks import lpks
 from stat_sif import sif
 from stat_wald_ht import wald_ht
 from stat_bstrp_pvalue import bstrp_pvalue
-# from sklearn.cluster import KMeans
-# from scipy.cluster.vq import kmeans2
-# from stat_gap import gap
 import timeit
 
 """
@@ -58,7 +55,7 @@ def run_script(input_dir, output_dir):
     print("+++++++Construct the design matrix: normalization+++++++")
     x_design = read_x(design_data, var_type)
     p = x_design.shape[1]
-    print("The dimension of design matrix is ", str(x_design.shape))
+    print("The dimension of design matrix is " + str(x_design.shape))
 
     """+++++++++++++++++++++++++++++++++++"""
     """Step 2. Statistical analysis: including (1) smoothing and (2) hypothesis testing"""
@@ -127,6 +124,7 @@ def run_script(input_dir, output_dir):
     np.savetxt(lpvals_fdr_file_name, lpvals_fdr)
     clu_pvals_file_name = output_dir + "cluster_pvalue.txt"
     np.savetxt(clu_pvals_file_name, clu_pvals)
+
 
 if __name__ == '__main__':
     input_dir0 = sys.argv[1]
