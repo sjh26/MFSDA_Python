@@ -29,14 +29,20 @@ import json
 """
 installed all the libraries above
 """
-
-parser = argparse.ArgumentParser(description='Multivariate Functional Shape Data Analysis (MFSDA)')
-parser.add_argument('--shapeData', type=str, help='Text file list with vtk filenames, 1 file per line', required=True)
-parser.add_argument('--coordData', type=str, help='filename, .vtk shape template', required=True)
-parser.add_argument('--covariate', type=str, help='filename, with covariates dim = n x p0 (comma separated or tabulation, without header)', required=True)
-#parser.add_argument('--covariateInterest', type=str, help='filename (dim = 1xp0 vector comma separated, 1 or 0 value to indicate/activate covariate of interest)', required=True)
-parser.add_argument('--covariateType', help='filename, dim=1xsum(covariateInterest) vector comma separated, 1 or 0 to indicate type of covariate double or int', required=True)
-parser.add_argument('--outputDir', help='output directory', default='./output')
+def main():
+    parser = argparse.ArgumentParser(description='Multivariate Functional Shape Data Analysis (MFSDA)')
+    parser.add_argument('--shapeData', type=str, help='Text file list with vtk filenames, 1 file per line', required=True)
+    parser.add_argument('--coordData', type=str, help='filename, .vtk shape template', required=True)
+    parser.add_argument('--covariate', type=str, help='filename, with covariates dim = n x p0 (comma separated or tabulation, without header)', required=True)
+    #parser.add_argument('--covariateInterest', type=str, help='filename (dim = 1xp0 vector comma separated, 1 or 0 value to indicate/activate covariate of interest)', required=True)
+    parser.add_argument('--covariateType', help='filename, dim=1xsum(covariateInterest) vector comma separated, 1 or 0 to indicate type of covariate double or int', required=True)
+    parser.add_argument('--outputDir', help='output directory', default='./output')
+    args = parser.parse_args()
+    start_all = timeit.default_timer()
+    run_script(args)
+    stop_all = timeit.default_timer()
+    delta_time_all = str(stop_all - start_all)
+    print("The total elapsed time is " + delta_time_all)
 
 def run_script(args):
     """
@@ -150,11 +156,4 @@ def run_script(args):
         json.dump(efit, outfile)
 
 if __name__ == '__main__':
-        
-    args = parser.parse_args()
-
-    start_all = timeit.default_timer()
-    run_script(args)
-    stop_all = timeit.default_timer()
-    delta_time_all = str(stop_all - start_all)
-    print("The total elapsed time is " + delta_time_all)
+    main()
