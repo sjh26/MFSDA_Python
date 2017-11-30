@@ -15,7 +15,7 @@ from stat_sif import sif
 from stat_wald_ht import wald_ht
 from stat_bstrp_pvalue import bstrp_pvalue
 import inspect
-cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],"MFSDA_Python")))
+cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],"lib")))
 if cmd_subfolder not in sys.path:
     sys.path.insert(0, cmd_subfolder)
 sys.path.append(cmd_subfolder)
@@ -71,7 +71,8 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
         self.moduleName = 'MFSDA'
         scriptedModulesPath = eval('slicer.modules.%s.path' % self.moduleName.lower())
         scriptedModulesPath = os.path.dirname(scriptedModulesPath)
-        path = os.path.join(scriptedModulesPath, 'Resources', 'UI', '%s.ui' % self.moduleName)
+        head, tail = os.path.split(scriptedModulesPath)
+        path = os.path.join(head, 'Resources', 'UI', '%s.ui' % self.moduleName)
         self.widget = slicer.util.loadUI(path)
         self.layout.addWidget(self.widget)
         # Instantiate and connect widgets ...
