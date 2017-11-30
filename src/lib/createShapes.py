@@ -4,15 +4,18 @@ import os
 import json
 import numpy as np
 
+def main():
+    parser = argparse.ArgumentParser(description='Multivariate Functional Shape Data Analysis (MFSDA) include pvalue maps')
+    parser.add_argument('--shape', type=str, help='Shape data', required=True)
+    parser.add_argument('--pvalues', type=str, help='filename, .json with pvalues', required=True)
+    parser.add_argument('--efit', type=str, help='filename, .json with efit', required=True)
+    parser.add_argument('--covariates', nargs='+', type=str, help='vector of covariate names, ex. age gender group veCadherinP')
+    parser.add_argument('--output', help='output shape', default='out.vtk')
+    args = parser.parse_args()
+    run_script2(args)
+    print('Done!')
 
-parser = argparse.ArgumentParser(description='Multivariate Functional Shape Data Analysis (MFSDA) include pvalue maps')
-parser.add_argument('--shape', type=str, help='Shape data', required=True)
-parser.add_argument('--pvalues', type=str, help='filename, .json with pvalues', required=True)
-parser.add_argument('--efit', type=str, help='filename, .json with efit', required=True)
-parser.add_argument('--covariates', nargs='+', type=str, help='vector of covariate names, ex. age gender group veCadherinP')
-parser.add_argument('--output', help='output shape', default='out.vtk')
-
-def run_script(args):
+def run_script2(args):
 
 	with open(args.pvalues) as data_file:
 		pvalues = json.load(data_file)
@@ -79,6 +82,4 @@ def run_script(args):
 
 if __name__ == '__main__':
 	
-	args = parser.parse_args()
-	run_script(args)
-	print('Done!')
+	main()
