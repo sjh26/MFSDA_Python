@@ -71,8 +71,7 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
         self.moduleName = 'MFSDA'
         scriptedModulesPath = eval('slicer.modules.%s.path' % self.moduleName.lower())
         scriptedModulesPath = os.path.dirname(scriptedModulesPath)
-        head, tail = os.path.split(scriptedModulesPath)
-        path = os.path.join(head, 'Resources', 'UI', '%s.ui' % self.moduleName)
+        path = os.path.join(scriptedModulesPath, 'Resources', 'UI', '%s.ui' % self.moduleName)
         self.widget = slicer.util.loadUI(path)
         self.layout.addWidget(self.widget)
         # Instantiate and connect widgets ...
@@ -264,6 +263,7 @@ class MFSDATest(ScriptedLoadableModuleTest):
     
     def runTest(self):
         cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split(inspect.getfile( inspect.currentframe() ))[0],"Testing")))
+        print("in the Test")
         vtk_currentPath=cmd_subfolder+'/shapeData.txt'
         template_currentPath=cmd_subfolder+'/ALLM_aligned.vtk'
         output_directory=cmd_subfolder+'/output'
