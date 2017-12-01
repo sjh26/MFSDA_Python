@@ -1,0 +1,17 @@
+01_Left_aligned.vtk
+02_Right_aligned.vtk
+06_Right_aligned.vtk
+03_Right_aligned.vtk
+04_Right_aligned.vtk
+07_Left_aligned.vtk
+10_Left_aligned.vtk
+08_Right_aligned.vtk
+12_Left_aligned.vtk
+14_Right_aligned.vtk
+21_Left_aligned.vtk
+22_Right_aligned.vtk
+24_Left_aligned.vtk
+29_Left_aligned.vtk
+36_Left_aligned.vtk
+38_Left_aligned.vtk
+39_Right_aligned.vtk
