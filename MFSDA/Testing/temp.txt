@@ -1,0 +1,17 @@
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/01_Left_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/02_Right_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/06_Right_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/03_Right_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/04_Right_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/07_Left_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/10_Left_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/08_Right_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/12_Left_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/14_Right_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/21_Left_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/22_Right_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/24_Left_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/29_Left_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/36_Left_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/38_Left_aligned.vtk
+/Users/loicmichoud/Desktop/MFSDA_Extension/MFSDA_Python/MFSDA/Testing/39_Right_aligned.vtk

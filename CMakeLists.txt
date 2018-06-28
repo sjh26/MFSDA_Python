@@ -6,7 +6,7 @@ project(MFSDA)
 # Extension meta-information
 set(EXTENSION_HOMEPAGE "http://slicer.org/slicerWiki/index.php/Documentation/Nightly/Extensions/MFSDA")
 set(EXTENSION_CATEGORY "Stats")
-set(EXTENSION_CONTRIBUTORS "John Doe (AnyWare Corp.)")
+set(EXTENSION_CONTRIBUTORS “Loic Michoud (University of Michigan)”
 set(EXTENSION_DESCRIPTION "Slicer Extension of MFSDA_Python")
 set(EXTENSION_ICONURL "http://www.example.com/Slicer/Extensions/MFSDA.png")
 set(EXTENSION_SCREENSHOTURLS "http://www.example.com/Slicer/Extensions/MFSDA/Screenshots/1.png")

@@ -72,7 +72,7 @@
 				</layout>
 			 </widget>
 			</item>
-			<item>
+			<!-- <item>
 			 <widget class="ctkCollapsibleButton" name="groupBox_3">
 				<property name="text" stdset="0">
 						<string>Select filename, with covariates dim = n x p0 (comma separated or tabulation, without header)</string>
@@ -89,15 +89,15 @@
 				 </item>
 				</layout>
 			 </widget>
-			</item>
+			</item> -->
 			<item>
 			 <widget class="ctkCollapsibleButton" name="groupBox_4">
 				<property name="text" stdset="0">
-				 <string>Select filename with the covariate type, 1 or 0 if double or int</string>
+				 <string>Select csv file </string>
 				</property>
 				<layout class="QHBoxLayout" name="horizontalLayout">
 				 <item>
-					<widget class="ctkPathLineEdit" name="lineEdit_covariateType">
+					<widget class="ctkPathLineEdit" name="lineEdit_csv">
 					 <property name="text">
 						<string>Choose file</string>
 					 </property>
@@ -126,7 +126,7 @@
 				</layout>
 			 </widget>
 			</item>
-			<item>
+			<!-- <item>
 			 <widget class="ctkCollapsibleButton" name="groupBox_4">
 				<property name="text" stdset="0">
 				 <string>Select file with the covariate names to reconstruct the shape</string>
@@ -143,7 +143,7 @@
 				 </item>
 				</layout>
 			 </widget>
-			</item>
+			</item> -->
 			<item>
 			 <widget class="ctkCollapsibleButton" name="groupBox_3">
 				<property name="text" stdset="0">
