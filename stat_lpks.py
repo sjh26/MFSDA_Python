@@ -5,6 +5,8 @@ Author: Chao Huang (chaohuang.stat@gmail.com)
 Last update: 2017-08-24
 """
 
+from __future__ import division
+
 import numpy as np
 from numpy.linalg import inv
 from stat_kernel import ep_kernel
