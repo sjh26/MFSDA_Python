@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.9)
 
-project(ShapeDistanceAnalyzer)
+project(MFSDA)
 
 
 set(MFSDA_VERSION_MAJOR 1)
