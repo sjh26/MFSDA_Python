@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.12)
+
 #-----------------------------------------------------------------------------
 set(MODULE_NAME MFSDA)
 
@@ -8,7 +10,25 @@ set(MODULE_PYTHON_SCRIPTS
 
 set(MODULE_PYTHON_RESOURCES
   Resources/Icons/${MODULE_NAME}.png
+  Resources/UI/${MODULE_NAME}.ui
+  MFSDA_stat.py
+  stat_kernel.py
+  stat_lpks.py
+  stat_sif.py
+  stat_wald_ht.py
+  stat_bstrp_pvalue.py
+  stat_read_x.py
+  stat_lpks_pre_bw.py
+  stat_grs.py
+  MFSDA_run
+  MFSDA_run.xml
   )
+
+
+
+
+find_package(Slicer REQUIRED)
+include(${Slicer_USE_FILE})
 
 #-----------------------------------------------------------------------------
 slicerMacroBuildScriptedModule(
@@ -26,5 +46,5 @@ if(BUILD_TESTING)
   slicer_add_python_unittest(SCRIPT ${MODULE_NAME}.py)
 
   # Additional build-time testing
-  add_subdirectory(Testing)
+  #add_subdirectory(Testing)
 endif()

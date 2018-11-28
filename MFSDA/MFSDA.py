@@ -3,17 +3,17 @@ import unittest
 import vtk, qt, ctk, slicer
 from slicer.ScriptedLoadableModule import *
 import logging
-import inputData
+#import inputData
 import sys
 import numpy as np
 from scipy import stats
 #from scipy.io import loadmat
-from statsmodels.sandbox.stats.multicomp import fdrcorrection0
-from stat_read_x import read_x
-from stat_lpks import lpks
-from stat_sif import sif
-from stat_wald_ht import wald_ht
-from stat_bstrp_pvalue import bstrp_pvalue
+#from statsmodels.sandbox.stats.multicomp import fdrcorrection0
+#from stat_read_x import read_x
+#from stat_lpks import lpks
+#from stat_sif import sif
+#from stat_wald_ht import wald_ht
+#from stat_bstrp_pvalue import bstrp_pvalue
 # from sklearn.cluster import KMeans
 # from scipy.cluster.vq import kmeans2
 # from stat_gap import gap
@@ -23,6 +23,7 @@ import argparse
 import json
 import os.path
 import csv 
+import time
 
 #
 # MFSDA
@@ -78,19 +79,127 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 		self.lineEdit_covariate = self.logic.get('lineEdit_covariate')
 		self.lineEdit_covariateType = self.logic.get('lineEdit_covariateType')
 		self.lineEdit_output = self.logic.get('lineEdit_output')
+
+		self.pushButton_run = self.logic.get('pushButton_run')
 		# self.apply_button=self.logic.get('Apply_Button')
 		self.lineEdit_CovariateNames = self.logic.get('lineEdit_CovariateNames')
 		self.lineEdit_ShapePvalue=self.logic.get('lineEdit_ShapePvalue')
+
+		'''
 		self.lineEdit_covariateType.connect('currentPathChanged(const QString)', self.onCSVFile)
 		self.lineEdit_covariate.connect('currentPathChanged(const QString)', self.onCSVFile)
 		self.lineEdit_template.connect('currentPathChanged(const QString)', self.onCSVFile)
 		self.lineEdit_vtk.connect('currentPathChanged(const QString)', self.onCSVFile)
 		self.lineEdit_output.connect('directoryChanged (const QString)', self.onCSVFile)
 		self.lineEdit_ShapePvalue.connect('directoryChanged (const QString)', self.onCSVFile)
-		self.lineEdit_CovariateNames.connect('directoryChanged (const QString)', self.onCSVFile)		
+		self.lineEdit_CovariateNames.connect('directoryChanged (const QString)', self.onCSVFile)'''		
+		self.pushButton_run.connect('clicked(bool)', self.onCSVFile)
 
 
-		
+	def onShapeState(self):
+	    state=self.MFSDAShapeThread.GetStatusString()
+	    if state=='Running'or state=='Scheduled':
+	        seconds = time.time()-self.starting_time
+	        m, s = divmod(seconds, 60)
+	        h, m = divmod(m, 60)
+	        if h==0 and m==0:
+	            t = "00:%02d" % (s)
+	        elif h==0 :
+	            t = "%02d:%02d" % (m, s)
+	        else:
+	            t = "%d:%02d:%02d" % (h, m, s)
+	        if int(s) ==0:
+	            print("MFSDA shape creation "+self.MFSDAShapeThread.GetStatusString()+"  "+t)
+
+	        self.pushButton_run.setText("Abort shape creation ("+t+")")
+	    else:
+	        print('MFSDA shape creation done')
+	        self.checkThreadTimer.stop()
+	        self.checkThreadTimer.disconnect('timeout()', self.onShapeState)
+
+	        CSVFile=open(self.lineEdit_output.directory+'/output.csv', 'wb')
+	        Data=['VTK Files']
+	        with CSVFile:
+	        	writer = csv.writer(CSVFile)
+	        	writer.writerow(Data)
+	        	writer.writerow([self.lineEdit_ShapePvalue.currentPath])
+	        CSVFile.close()
+	        self.pushButton_run.setText("Run")
+	        self.pushButton_run.connect('clicked(bool)', self.onCSVFile)
+	        self.pushButton_run.disconnect('clicked(bool)', self.onKillComputationShape)
+	        parameters = {}
+	        parameters["CSVFile"] = self.lineEdit_output.directory+'/output.csv'
+	        module = slicer.modules.shapepopulationviewer
+	        slicer.cli.run(module, None, parameters, wait_for_completion=True)
+
+
+	    return
+
+	def onKillComputationShape(self):
+        
+	    self.pushButton_run.clicked.disconnect()
+	    self.pushButton_run.connect('clicked()',self.onCSVFile)
+	    self.pushButton_run.setText("Run")
+
+	    self.checkThreadTimer.stop()
+	    self.checkThreadTimer.timeout.disconnect()
+
+	    self.MFSDAShapeThread.Cancel()
+	    minutes = int((time.time()-self.starting_time)/60)
+	    print('Computation Stopped after '+str(minutes)+' min')
+
+
+	def onComputationState(self):
+	    state=self.MFSDAThread.GetStatusString()
+	    if state=='Running'or state=='Scheduled':
+	        seconds = time.time()-self.starting_time
+	        m, s = divmod(seconds, 60)
+	        h, m = divmod(m, 60)
+	        if h==0 and m==0:
+	            t = "00:%02d" % (s)
+	        elif h==0 :
+	            t = "%02d:%02d" % (m, s)
+	        else:
+	            t = "%d:%02d:%02d" % (h, m, s)
+	        if int(s) ==0:
+	            print("MFSDA computation "+self.MFSDAThread.GetStatusString()+"  "+t)
+
+	        self.pushButton_run.setText("Abort computation ("+t+")")
+	    else:
+	        print('MFSDA Computation done')
+	        self.checkThreadTimer.stop()
+
+	        self.param = {}
+	        self.param["shape"] = self.lineEdit_ShapePvalue.currentPath
+	        self.param["pvalues"] = self.lineEdit_output.directory+'/pvalues.json'
+	        self.param["efit"] = self.lineEdit_output.directory+'/efit.json'
+	        self.param["covariates"] = self.lineEdit_CovariateNames.currentPath
+	        self.param["output"] = self.lineEdit_output.directory+'/out.vtk'
+
+	        MFSDAShapemodule = slicer.modules.mfsda_createshapes
+	        self.MFSDAShapeThread=slicer.cli.run(MFSDAShapemodule, None, self.param, wait_for_completion=False)
+
+		    
+	        self.checkThreadTimer.disconnect('timeout()', self.onComputationState)
+	        self.checkThreadTimer.connect('timeout()', self.onShapeState)
+	        self.checkThreadTimer.start(1000)
+
+	        self.pushButton_run.connect('clicked(bool)', self.onKillComputationShape)
+	        self.pushButton_run.disconnect('clicked(bool)', self.onKillComputation)
+
+
+	def onKillComputation(self):
+	    
+	    self.pushButton_run.clicked.disconnect()
+	    self.pushButton_run.connect('clicked()',self.onCSVFile)
+	    self.pushButton_run.setText("Run")
+
+	    self.checkThreadTimer.stop()
+	    self.checkThreadTimer.timeout.disconnect()
+
+	    self.MFSDAThread.Cancel()
+	    minutes = int((time.time()-self.starting_time)/60)
+	    print('Computation Stopped after '+str(minutes)+' min')
 
 	def onCSVFile(self):
 		print('coucou')
@@ -113,9 +222,9 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 		if not os.path.exists(self.lineEdit_ShapePvalue.currentPath):
 			self.stateCSVMeansShape = False
 			return
-		if not os.path.exists(self.lineEdit_CovariateNames.currentPath):
+		"""if not os.path.exists(self.lineEdit_CovariateNames.currentPath):
 			self.stateCSVMeansShape = False
-			return
+			return"""
 		condition1 = self.logic.checkExtension(self.lineEdit_vtk.currentPath, ".txt")
 		condition2 = self.logic.checkExtension(self.lineEdit_template.currentPath, ".vtk")
 		condition3 = self.logic.checkExtension(self.lineEdit_covariate.currentPath, ".csv")
@@ -148,12 +257,12 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 			self.lineEdit_ShapePvalue.setCurrentPath(" ")
 			self.stateCSVDataset = False
 			return
-		if not condition7:
+		'''if not condition7:
 			self.lineEdit_CovariateNames.setCurrentPath(" ")
 			self.stateCSVDataset = False
-			return
+			return'''
 		PathOutput=os.path.dirname(self.lineEdit_vtk.currentPath)+'/'
-		
+
 		# print('bouton !!!!',self.apply_button.clicked())
 		print(self.lineEdit_covariateType.currentPath)
 		print(self.lineEdit_covariate.currentPath)
@@ -165,14 +274,41 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 		print(PathOutput)
 
 
-		args=arguments(coordData=self.lineEdit_template.currentPath, covariate=self.lineEdit_covariate.currentPath, covariateType=self.lineEdit_covariateType.currentPath, outputDir=self.lineEdit_output.directory, shapeData=self.lineEdit_vtk.currentPath, shapePath=PathOutput)
-		self.logic.run_script(args)
-		pvaluesPath=self.lineEdit_output.directory+'/pvalues.json'
-		efitPath=self.lineEdit_output.directory+'/efit.json'
-		ShapePvalue=self.lineEdit_ShapePvalue.currentPath
-		outputPath=self.lineEdit_output.directory+'/out.vtk'
-		argShapes=arguments(pvalues=pvaluesPath, covariates=self.lineEdit_CovariateNames.currentPath, shape=self.lineEdit_ShapePvalue.currentPath, efit=efitPath, output=outputPath)
-		self.logic.run_Shape(argShapes)
+
+		self.param = {}
+		self.param["shapeData"] = self.lineEdit_vtk.currentPath
+		self.param["coordData"] = self.lineEdit_template.currentPath
+		self.param["covariate"] = self.lineEdit_covariate.currentPath
+		self.param["covariateType"] = self.lineEdit_covariateType.currentPath
+		self.param["outputDir"] = self.lineEdit_output.directory
+
+
+		self.starting_time=time.time()
+		MFSDAmodule = slicer.modules.mfsda_run
+		self.MFSDAThread=slicer.cli.run(MFSDAmodule, None, self.param, wait_for_completion=False)
+
+
+		self.checkThreadTimer=qt.QTimer()
+		self.checkThreadTimer.connect('timeout()', self.onComputationState)
+		self.checkThreadTimer.start(1000)
+
+		self.pushButton_run.disconnect('clicked(bool)', self.onCSVFile)
+		self.pushButton_run.connect('clicked(bool)', self.onKillComputation)
+
+		return
+ 
+        '''		self.param = {}
+		self.param["shape"] = self.lineEdit_ShapePvalue.currentPath
+		self.param["pvalues"] = self.lineEdit_output.directory+'/pvalues.json'
+		self.param["efit"] = self.lineEdit_output.directory+'/efit.json'
+		self.param["covariates"] = self.lineEdit_CovariateNames.currentPath
+		self.param["output"] = self.lineEdit_output.directory+'/out.vtk'
+
+		MFSDAShapemodule = slicer.modules.MFSDA_createShapes
+		self.MFSDAShapeThread=slicer.cli.run(MFSDAShapemodule, None, self.param, wait_for_completion=False)
+
+		return
+
 		CSVFile=open(self.lineEdit_output.directory+'/output.csv', 'wb')
 		Data=['VTK Files']
 		with CSVFile:
@@ -184,6 +320,33 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 		parameters["CSVFile"] = self.lineEdit_output.directory+'/output.csv'
 		module = slicer.modules.shapepopulationviewer
 		slicer.cli.run(module, None, parameters, wait_for_completion=True)
+
+		return
+
+
+		args=arguments(coordData=self.lineEdit_template.currentPath, covariate=self.lineEdit_covariate.currentPath, covariateType=self.lineEdit_covariateType.currentPath, outputDir=self.lineEdit_output.directory, shapeData=self.lineEdit_vtk.currentPath, shapePath=PathOutput)
+		self.logic.run_script(args)
+
+
+		pvaluesPath=self.lineEdit_output.directory+'/pvalues.json'
+		efitPath=self.lineEdit_output.directory+'/efit.json'
+		ShapePvalue=self.lineEdit_ShapePvalue.currentPath
+		outputPath=self.lineEdit_output.directory+'/out.vtk'
+		argShapes=arguments(pvalues=pvaluesPath, covariates=self.lineEdit_CovariateNames.currentPath, shape=self.lineEdit_ShapePvalue.currentPath, efit=efitPath, output=outputPath)
+		self.logic.run_Shape(argShapes)
+
+
+		CSVFile=open(self.lineEdit_output.directory+'/output.csv', 'wb')
+		Data=['VTK Files']
+		with CSVFile:
+			writer = csv.writer(CSVFile)
+			writer.writerow(Data)
+			writer.writerow([self.lineEdit_ShapePvalue.currentPath])
+		CSVFile.close()
+		parameters = {}
+		parameters["CSVFile"] = self.lineEdit_output.directory+'/output.csv'
+		module = slicer.modules.shapepopulationviewer
+		slicer.cli.run(module, None, parameters, wait_for_completion=True)'''
 			
 
 
@@ -228,7 +391,7 @@ class MFSDALogic(ScriptedLoadableModuleLogic):
 		self.interface = interface
 		self.table = vtk.vtkTable
 		self.colorBar = {'Point1': [0, 0, 1, 0], 'Point2': [0.5, 1, 1, 0], 'Point3': [1, 1, 0, 0]}
-		self.input_Data = inputData.inputData()
+		#self.input_Data = inputData.inputData()
 			
 			
 	def get(self, objectName):
@@ -360,7 +523,7 @@ class MFSDALogic(ScriptedLoadableModuleLogic):
 
 		"""+++++++++++++++++++++++++++++++++++"""
 		"""Step 2. Statistical analysis: including (1) smoothing and (2) hypothesis testing"""
-#        print('y_design', y_design, 'y_design', coord_mat, 'design_data', design_data, 'var_type', var_type)
+		#print('y_design', y_design, 'y_design', coord_mat, 'design_data', design_data, 'var_type', var_type)
 		gpvals, lpvals_fdr, clu_pvals, efit_beta, efity_design, efit_eta = mfsda.run_stats(y_design, coord_mat, design_data, var_type)
 			
 		"""+++++++++++++++++++++++++++++++++++"""
@@ -457,6 +620,7 @@ class MFSDALogic(ScriptedLoadableModuleLogic):
 		# 	stop_all = timeit.default_timer()
 		# 	delta_time_all = str(stop_all - start_all)
 		# 	print("The total elapsed time is " + delta_time_all)
+
 class arguments:
 	def __init__(self, **kwargs):
 		self.__dict__.update(kwargs)				
