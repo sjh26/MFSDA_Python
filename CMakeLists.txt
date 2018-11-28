@@ -36,7 +36,7 @@ endif()
 # Extension modules
 
 #add_subdirectory(CLI/ComputeMeanShapes)
-add_subdirectory(CLI/linearSubdivision)
+#add_subdirectory(CLI/linearSubdivision)
 ## NEXT_MODULE
 
 
