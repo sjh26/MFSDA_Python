@@ -5,6 +5,7 @@ from slicer.ScriptedLoadableModule import *
 import logging
 #import inputData
 import sys
+sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)),os.path.join('Resources','Libraries')))
 import numpy as np
 from scipy import stats
 #from scipy.io import loadmat
