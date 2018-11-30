@@ -78,7 +78,7 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 		self.lineEdit_vtk = self.logic.get('lineEdit_vtk')
 		self.lineEdit_template = self.logic.get('lineEdit_template')
 		self.lineEdit_covariate = self.logic.get('lineEdit_covariate')
-		self.lineEdit_covariateType = self.logic.get('lineEdit_covariateType')
+		#self.lineEdit_covariateType = self.logic.get('lineEdit_covariateType')
 		self.lineEdit_output = self.logic.get('lineEdit_output')
 
 		self.pushButton_run = self.logic.get('pushButton_run')
@@ -205,9 +205,9 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 	def onCSVFile(self):
 		print('coucou')
 		self.dictShapeModels = dict()
-		if not os.path.exists(self.lineEdit_covariateType.currentPath):
+		'''if not os.path.exists(self.lineEdit_covariateType.currentPath):
 			self.stateCSVMeansShape = False
-			return
+			return'''
 		if not os.path.exists(self.lineEdit_covariate.currentPath):
 			self.stateCSVMeansShape = False
 			return
@@ -229,7 +229,7 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 		condition1 = self.logic.checkExtension(self.lineEdit_vtk.currentPath, ".txt")
 		condition2 = self.logic.checkExtension(self.lineEdit_template.currentPath, ".vtk")
 		condition3 = self.logic.checkExtension(self.lineEdit_covariate.currentPath, ".csv")
-		condition4 = self.logic.checkExtension(self.lineEdit_covariateType.currentPath, ".csv")
+		#condition4 = self.logic.checkExtension(self.lineEdit_covariateType.currentPath, ".csv")
 		condition5= self.lineEdit_output.directory!='.'
 		condition6 = self.logic.checkExtension(self.lineEdit_ShapePvalue.currentPath, ".vtk")
 		condition7= self.lineEdit_CovariateNames.currentPath!='.'
@@ -246,10 +246,10 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 			self.lineEdit_covariate.setCurrentPath(" ")
 			self.stateCSVDataset = False
 			return
-		if not condition4:
+		'''if not condition4:
 			self.lineEdit_covariateType.setCurrentPath(" ")
 			self.stateCSVDataset = False
-			return
+			return'''
 		if not condition5:
 			#self.lineEdit_output.setDirectory(" ")
 			self.stateCSVDataset = False
@@ -280,7 +280,7 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 		self.param["shapeData"] = self.lineEdit_vtk.currentPath
 		self.param["coordData"] = self.lineEdit_template.currentPath
 		self.param["covariate"] = self.lineEdit_covariate.currentPath
-		self.param["covariateType"] = self.lineEdit_covariateType.currentPath
+		#self.param["covariateType"] = self.lineEdit_covariateType.currentPath
 		self.param["outputDir"] = self.lineEdit_output.directory
 
 

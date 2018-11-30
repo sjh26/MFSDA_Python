@@ -36,7 +36,7 @@ parser.add_argument('--shapeData', type=str, help='Text file list with vtk filen
 parser.add_argument('--coordData', type=str, help='filename, .vtk shape template', required=True)
 parser.add_argument('--covariate', type=str, help='filename, with covariates dim = n x p0 (comma separated or tabulation, without header)', required=True)
 #parser.add_argument('--covariateInterest', type=str, help='filename (dim = 1xp0 vector comma separated, 1 or 0 value to indicate/activate covariate of interest)', required=True)
-parser.add_argument('--covariateType', help='filename, dim=1xsum(covariateInterest) vector comma separated, 1 or 0 to indicate type of covariate double or int', required=True)
+#parser.add_argument('--covariateType', help='filename, dim=1xsum(covariateInterest) vector comma separated, 1 or 0 to indicate type of covariate double or int', required=True)
 parser.add_argument('--outputDir', help='output directory', default='./output')
 
 def run_script(args):
@@ -114,14 +114,7 @@ def run_script(args):
     design_data = np.loadtxt(design_data_file_name, delimiter=delimiter)
 
     # read the covariate type
-    var_type_file_name = args.covariateType
-    _ , file_extension = os.path.splitext(var_type_file_name)
-
-    delimiter = ' '
-    if file_extension == '.csv':
-        delimiter=','
-
-    var_type = np.loadtxt(var_type_file_name, delimiter=delimiter)
+    var_type = getCovariateType(design_data)
 
     """+++++++++++++++++++++++++++++++++++"""
     """Step 2. Statistical analysis: including (1) smoothing and (2) hypothesis testing"""
@@ -149,6 +142,27 @@ def run_script(args):
 
     with open(os.path.join(args.outputDir,'efit.json'), 'w') as outfile:
         json.dump(efit, outfile)
+
+
+
+def getCovariateType(design_data):
+
+    (row,column)=design_data.shape
+    cov_types=[]
+    for c in range(column):
+        cov_col=design_data[:,c]
+        cov_type = 0. #int
+        for i in range(len(cov_col)):
+            if int(cov_col[i])!=cov_col[i]:
+                cov_type = 1. #double
+                break
+        cov_types.append(cov_type)
+
+    cov_types = np.array(cov_types)
+    return cov_types
+
+
+
 
 if __name__ == '__main__':
         
