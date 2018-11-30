@@ -85,22 +85,6 @@
       <item>
        <widget class="ctkCollapsibleButton" name="groupBox_4" native="true">
         <property name="text" stdset="0">
-         <string>Select filename with the covariate type, 1 or 0 if double or int</string>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="ctkPathLineEdit" name="lineEdit_covariateType" native="true">
-           <property name="text" stdset="0">
-            <string>Choose file</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="ctkCollapsibleButton" name="groupBox_4" native="true">
-        <property name="text" stdset="0">
          <string>Select shape to visualize the pvalues</string>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">

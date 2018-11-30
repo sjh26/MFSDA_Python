@@ -265,7 +265,7 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
 		PathOutput=os.path.dirname(self.lineEdit_vtk.currentPath)+'/'
 
 		# print('bouton !!!!',self.apply_button.clicked())
-		print(self.lineEdit_covariateType.currentPath)
+		#print(self.lineEdit_covariateType.currentPath)
 		print(self.lineEdit_covariate.currentPath)
 		print(self.lineEdit_template.currentPath)
 		print(self.lineEdit_vtk.currentPath)
