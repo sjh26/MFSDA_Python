@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+  <category>PValues</category>
+  <title>MFSDA_run</title>
+  <description><![CDATA[This provides a commandline interface to run MFSDA.]]></description>
+  <version>1.0.0</version>
+
+
+  <contributor>Loic Michoud,Mateo Lopez (UNC)</contributor>
+
+  <parameters>
+    <label>IO</label>
+    <description>Inputs parameters</description>
+    <file fileExtensions=".txt">
+      <name>shapeData</name>
+      <longflag>shapeData</longflag>
+      <label>Shape List</label>
+      <channel>input</channel>
+      <description>Text file list with vtk filenames, 1 file per line</description>
+    </file>
+    <file fileExtensions=".vtk">
+      <name>coordData</name>
+      <longflag>coordData</longflag>
+      <label>Shape Template</label>
+      <channel>input</channel>
+      <description>filename, .vtk shape template</description>
+    </file>
+    <file fileExtensions=".csv">
+      <name>covariate</name>
+      <longflag>covariate</longflag>
+      <label>Covariates</label>
+      <channel>input</channel>
+      <description>filename, with covariates dim = n x p0, csv file (comma separated or tabulation, without header)</description>
+    </file>
+
+    <directory>
+      <name>outputDir</name>
+      <longflag>outputDir</longflag>
+      <label>Output Directory</label>
+      <channel>output</channel>
+      <description>output directory</description>
+      <default>./output</default>
+    </directory>
+  </parameters>
+</executable>
+

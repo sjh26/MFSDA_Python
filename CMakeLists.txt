@@ -1,30 +1,46 @@
-#-----------------------------------------------------------------------------
-set(MODULE_NAME MFSDA)
+cmake_minimum_required(VERSION 2.8.9)
+
+project(MFSDA)
+
+
+set(MFSDA_VERSION_MAJOR 1)
+set(MFSDA_VERSION_MINOR 0)
+set(MFSDA_VERSION_PATCH 1)
+
+
+option(MFSDA_BUILD_SLICER_EXTENSION OFF)
+
+if(MFSDA_BUILD_SLICER_EXTENSION)
+  #-----------------------------------------------------------------------------
+  # Extension meta-information
+  set(EXTENSION_HOMEPAGE "")
+  set(EXTENSION_CATEGORY "Statistics")
+  set(EXTENSION_CONTRIBUTORS "Mateo Lopez (University of North Carolina), Juan Carlos Prieto (University of North Carolina) ")
+  set(EXTENSION_DESCRIPTION " ")
+  set(EXTENSION_ICONURL "")
+  set(EXTENSION_SCREENSHOTURLS "")
+  set(EXTENSION_DEPENDS )
+
+  #-----------------------------------------------------------------------------
+  # Extension dependencies
+  find_package(Slicer REQUIRED)
+  include(${Slicer_USE_FILE})
+
+  add_subdirectory(MFSDA)
+else()
+  find_package(VTK REQUIRED)
+  find_package(SlicerExecutionModel REQUIRED)
+endif()
 
 #-----------------------------------------------------------------------------
-set(MODULE_PYTHON_SCRIPTS
-  ${MODULE_NAME}.py
-  )
+# Extension modules
 
-set(MODULE_PYTHON_RESOURCES
-  Resources/Icons/${MODULE_NAME}.png
-  )
+#add_subdirectory(CLI/ComputeMeanShapes)
+#add_subdirectory(CLI/linearSubdivision)
+## NEXT_MODULE
 
-#-----------------------------------------------------------------------------
-slicerMacroBuildScriptedModule(
-  NAME ${MODULE_NAME}
-  SCRIPTS ${MODULE_PYTHON_SCRIPTS}
-  RESOURCES ${MODULE_PYTHON_RESOURCES}
-  WITH_GENERIC_TESTS
-  )
 
 #-----------------------------------------------------------------------------
-if(BUILD_TESTING)
-
-  # Register the unittest subclass in the main script as a ctest.
-  # Note that the test will also be available at runtime.
-  slicer_add_python_unittest(SCRIPT ${MODULE_NAME}.py)
-
-  # Additional build-time testing
-  add_subdirectory(Testing)
+if(MFSDA_BUILD_SLICER_EXTENSION)
+  include(${Slicer_EXTENSION_CPACK})
 endif()

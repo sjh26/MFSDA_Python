@@ -1,6 +1,10 @@
+#!/usr/bin/env python-real
+# -*- coding: utf-8 -*-
 import vtk
 import argparse
-import os
+import os,sys
+
+sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)),os.path.join('Resources','Libraries')))
 import json
 import numpy as np
 

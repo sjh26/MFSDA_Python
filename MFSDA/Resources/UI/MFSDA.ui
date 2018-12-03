@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MFSDA</class>
+ <widget class="qMRMLWidget" name="MFSDA">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>797</width>
+    <height>490</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="ctkCollapsibleButton" name="inputFiducialsNodeSelector_2" native="true">
+     <property name="text" stdset="0">
+      <string>Selection of the files needed to run MFSDA:</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <layout class="QHBoxLayout" name="inputModelLayout">
+        <item>
+         <widget class="QLabel" name="inputModelLabel">
+          <property name="minimumSize">
+           <size>
+            <width>140</width>
+            <height>0</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="ctkCollapsibleButton" name="groupBox" native="true">
+        <property name="text" stdset="0">
+         <string>Select text file list with vtk filenames, 1 file per line</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="ctkPathLineEdit" name="lineEdit_vtk" native="true">
+           <property name="text" stdset="0">
+            <string>Choose file</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="ctkCollapsibleButton" name="groupBox_2" native="true">
+        <property name="text" stdset="0">
+         <string>Select filename, .vtk shape template</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="ctkPathLineEdit" name="lineEdit_template" native="true">
+           <property name="text" stdset="0">
+            <string>Choose file</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="ctkCollapsibleButton" name="groupBox_3" native="true">
+        <property name="text" stdset="0">
+         <string>Select filename, with covariates dim = n x p0 (comma separated or tabulation, without header)</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="ctkPathLineEdit" name="lineEdit_covariate" native="true">
+           <property name="text" stdset="0">
+            <string>Choose file</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="ctkCollapsibleButton" name="groupBox_4" native="true">
+        <property name="text" stdset="0">
+         <string>Select shape to visualize the pvalues</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="ctkPathLineEdit" name="lineEdit_ShapePvalue" native="true">
+           <property name="text" stdset="0">
+            <string>Choose file</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="ctkCollapsibleButton" name="groupBox_4" native="true">
+        <property name="text" stdset="0">
+         <string>Select file with the covariate names to reconstruct the shape</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="ctkPathLineEdit" name="lineEdit_CovariateNames" native="true">
+           <property name="text" stdset="0">
+            <string>Choose file</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="ctkCollapsibleButton" name="groupBox_3" native="true">
+        <property name="text" stdset="0">
+         <string>Select folder to store the output files</string>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="ctkDirectoryButton" name="lineEdit_output" native="true">
+           <property name="text" stdset="0">
+            <string>Choose file</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QPushButton" name="pushButton_run">
+           <property name="text">
+            <string>Run</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>qMRMLWidget</class>
+   <extends>QWidget</extends>
+   <header>qMRMLWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ctkCollapsibleButton</class>
+   <extends>QWidget</extends>
+   <header>ctkCollapsibleButton.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ctkPathLineEdit</class>
+   <extends>QWidget</extends>
+   <header>ctkpathlineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ctkDirectoryButton</class>
+   <extends>QWidget</extends>
+   <header>ctkdirectorybutton.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

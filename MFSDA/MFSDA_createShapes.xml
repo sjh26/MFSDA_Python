@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<executable>
+  <category>PValues</category>
+  <title>MFSDA_createShapes</title>
+  <description><![CDATA[This provides a commandline interface to run MFSDA.]]></description>
+  <version>1.0.0</version>
+
+
+  <contributor>Loic Michoud,Mateo Lopez (UNC)</contributor>
+
+  <parameters>
+    <label>IO</label>
+    <description>Inputs parameters</description>
+    <file fileExtensions=".vtk">
+      <name>shape</name>
+      <longflag>shape</longflag>
+      <label>Shape</label>
+      <channel>input</channel>
+      <description>Shape data</description>
+    </file>
+    <file fileExtensions=".json">
+      <name>pvalues</name>
+      <longflag>pvalues</longflag>
+      <label>P Values</label>
+      <channel>input</channel>
+      <description>filename, .json with pvalues</description>
+    </file>
+    <file fileExtensions=".json">
+      <name>efit</name>
+      <longflag>efit</longflag>
+      <label>Efit</label>
+      <channel>input</channel>
+      <description>filename, .json with efit</description>
+    </file>
+    <file fileExtensions=".csv">
+      <name>covariates</name>
+      <longflag>covariates</longflag>
+      <label>Covariate Names</label>
+      <channel>input</channel>
+      <description>vector of covariate names, ex. age gender group veCadherinP</description>
+    </file>
+    <file fileExtensions=".vtk">
+      <name>output</name>
+      <longflag>output</longflag>
+      <label>Output Directory</label>
+      <channel>output</channel>
+      <description>output shape</description>
+      <default>./out.vtk</default>
+    </file>
+  </parameters>
+</executable>
+
