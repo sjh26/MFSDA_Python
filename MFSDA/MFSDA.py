@@ -1,3 +1,5 @@
+from __future__ import division
+from __future__ import print_function
 import os
 import unittest
 import vtk, qt, ctk, slicer
@@ -622,7 +624,7 @@ class MFSDALogic(ScriptedLoadableModuleLogic):
 		# 	delta_time_all = str(stop_all - start_all)
 		# 	print("The total elapsed time is " + delta_time_all)
 
-class arguments:
+class arguments(object):
 	def __init__(self, **kwargs):
 		self.__dict__.update(kwargs)				
 	

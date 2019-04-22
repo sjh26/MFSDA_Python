@@ -4,6 +4,7 @@ Local linear kernel smoothing for optimal bandwidth selection.
 Author: Chao Huang (chaohuang.stat@gmail.com)
 Last update: 2017-08-14
 """
+from __future__ import division
 
 import numpy as np
 from numpy.linalg import inv

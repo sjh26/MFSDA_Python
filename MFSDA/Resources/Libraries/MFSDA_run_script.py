@@ -5,6 +5,7 @@ Usage: python ./MFSDA_run_script.py ./data/ ./result/
 Author: Chao Huang (chaohuang.stat@gmail.com)
 Last update: 2017-08-14
 """
+from __future__ import print_function
 
 import sys
 import numpy as np

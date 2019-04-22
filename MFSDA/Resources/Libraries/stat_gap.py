@@ -19,7 +19,7 @@ installed all the libraries above
 """
 
 
-def gap(data, refs=None, nrefs=20, ks=range(1, 3)):
+def gap(data, refs=None, nrefs=20, ks=list(range(1, 3))):
     """
     Compute the Gap statistic for for evaluating k-means clustering.
 
