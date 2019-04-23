@@ -20,9 +20,9 @@ set(MODULE_PYTHON_RESOURCES
   Resources/Libraries/stat_read_x.py
   Resources/Libraries/stat_lpks_pre_bw.py
   Resources/Libraries/stat_grs.py
-  MFSDA_run
+  MFSDA_run.py
   MFSDA_run.xml
-  MFSDA_createShapes
+  MFSDA_createShapes.py
   MFSDA_createShapes.xml
   )
 
