@@ -18,71 +18,71 @@ parser.add_argument('--output', help='output shape', default='out.vtk')
 
 def run_script(args):
 
-	with open(args.pvalues) as data_file:
-		pvalues = json.load(data_file)
-		lpvalues = np.array(pvalues['Lpvals_fdr'])
+    with open(args.pvalues) as data_file:
+        pvalues = json.load(data_file)
+        lpvalues = np.array(pvalues['Lpvals_fdr'])
 
-	with open(args.efit) as data_file:
-		efit = json.load(data_file)
-		efitbetas = np.array(efit['efitBetas'])
+    with open(args.efit) as data_file:
+        efit = json.load(data_file)
+        efitbetas = np.array(efit['efitBetas'])
 
-	covariates = args.covariates
+    covariates = args.covariates
 
-	reader = vtk.vtkPolyDataReader()
-	reader.SetFileName(args.shape)
-	reader.Update()
-	shapedata = reader.GetOutput()
+    reader = vtk.vtkPolyDataReader()
+    reader.SetFileName(args.shape)
+    reader.Update()
+    shapedata = reader.GetOutput()
 
-	pointdata = shapedata.GetPointData()	
+    pointdata = shapedata.GetPointData()    
 
-	print("Adding pvalues...", lpvalues.shape)
+    print("Adding pvalues...", lpvalues.shape)
 
-	for j in range(lpvalues.shape[1]):
+    for j in range(lpvalues.shape[1]):
 
-		arr = vtk.vtkDoubleArray()
-		name = 'pvalue_'
-		if covariates and j < len(covariates):
-			name += covariates[j]
-		else:
-			name += str(j)
+        arr = vtk.vtkDoubleArray()
+        name = 'pvalue_'
+        if covariates and j < len(covariates):
+            name += covariates[j]
+        else:
+            name += str(j)
 
-		arr.SetName(name)
+        arr.SetName(name)
 
-		for i in range(lpvalues.shape[0]):			
-			arr.InsertNextTuple([lpvalues[i][j]])
-		pointdata.AddArray(arr)
-
-
-	print("Adding betas...", efitbetas.shape)
-
-	for k in range(efitbetas.shape[2]):
-		for i in range(efitbetas.shape[0]):		
-			arr = vtk.vtkDoubleArray()
-
-			name = 'betavalues_' + str(k) + "_"
-
-			if covariates and i < len(covariates):
-				name += covariates[i]
-			else:
-				name += str(i)
-
-			arr.SetName(name)
-			
-			for j in range(efitbetas.shape[1]):				
-				arr.InsertNextTuple([efitbetas[i][j][k]])
-			pointdata.AddArray(arr)
+        for i in range(lpvalues.shape[0]):            
+            arr.InsertNextTuple([lpvalues[i][j]])
+        pointdata.AddArray(arr)
 
 
-	print("Writing output vtk file...")
+    print("Adding betas...", efitbetas.shape)
 
-	writer = vtk.vtkPolyDataWriter()
-	writer.SetFileName(args.output)
-	writer.SetInputData(shapedata)
-	writer.Update()
+    for k in range(efitbetas.shape[2]):
+        for i in range(efitbetas.shape[0]):        
+            arr = vtk.vtkDoubleArray()
+
+            name = 'betavalues_' + str(k) + "_"
+
+            if covariates and i < len(covariates):
+                name += covariates[i]
+            else:
+                name += str(i)
+
+            arr.SetName(name)
+            
+            for j in range(efitbetas.shape[1]):                
+                arr.InsertNextTuple([efitbetas[i][j][k]])
+            pointdata.AddArray(arr)
+
+
+    print("Writing output vtk file...")
+
+    writer = vtk.vtkPolyDataWriter()
+    writer.SetFileName(args.output)
+    writer.SetInputData(shapedata)
+    writer.Update()
 
 
 if __name__ == '__main__':
-	
-	args = parser.parse_args()
-	run_script(args)
-	print('Done!')
+    
+    args = parser.parse_args()
+    run_script(args)
+    print('Done!')
