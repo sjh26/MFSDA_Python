@@ -9,12 +9,18 @@ import json
 import numpy as np
 
 
-parser = argparse.ArgumentParser(description='Multivariate Functional Shape Data Analysis (MFSDA) include pvalue maps')
-parser.add_argument('--shape', type=str, help='Shape data', required=True)
-parser.add_argument('--pvalues', type=str, help='filename, .json with pvalues', required=True)
-parser.add_argument('--efit', type=str, help='filename, .json with efit', required=True)
-parser.add_argument('--covariates', nargs='+', type=str, help='vector of covariate names, ex. age gender group veCadherinP')
-parser.add_argument('--output', help='output shape', default='out.vtk')
+def main():
+    parser = argparse.ArgumentParser(description='Multivariate Functional Shape Data Analysis (MFSDA) include pvalue maps')
+    parser.add_argument('--shape', type=str, help='Shape data', required=True)
+    parser.add_argument('--pvalues', type=str, help='filename, .json with pvalues', required=True)
+    parser.add_argument('--efit', type=str, help='filename, .json with efit', required=True)
+    parser.add_argument('--covariates', nargs='+', type=str, help='vector of covariate names, ex. age gender group veCadherinP')
+    parser.add_argument('--output', help='output shape', default='out.vtk')
+
+    args = parser.parse_args()
+    run_script(args)
+    print('Done!')
+
 
 def run_script(args):
 
@@ -52,7 +58,6 @@ def run_script(args):
             arr.InsertNextTuple([lpvalues[i][j]])
         pointdata.AddArray(arr)
 
-
     print("Adding betas...", efitbetas.shape)
 
     for k in range(efitbetas.shape[2]):
@@ -72,7 +77,6 @@ def run_script(args):
                 arr.InsertNextTuple([efitbetas[i][j][k]])
             pointdata.AddArray(arr)
 
-
     print("Writing output vtk file...")
 
     writer = vtk.vtkPolyDataWriter()
@@ -82,7 +86,4 @@ def run_script(args):
 
 
 if __name__ == '__main__':
-    
-    args = parser.parse_args()
-    run_script(args)
-    print('Done!')
+    main()
