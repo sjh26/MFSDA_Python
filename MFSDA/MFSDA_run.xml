@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <executable>
-  <category>PValues</category>
+  <category>Shape Analysis.Advanced</category>
   <title>MFSDA_run</title>
   <description><![CDATA[This provides a commandline interface to run MFSDA.]]></description>
   <version>1.0.0</version>
