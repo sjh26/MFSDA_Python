@@ -33,11 +33,12 @@ def wald_ht(x_design, efit_beta, esig_eta, cdesign):
 
     c_mat = np.kron(np.eye(m), cdesign)
     dd = np.dot(c_mat, delta_beta)
-    omegax = inv(np.dot(cdesign, np.dot(inv(np.dot(x_design.T, x_design)), cdesign.T)))
+    omegax = inv(np.dot(cdesign, np.dot(inv(np.dot(x_design.T, x_design)
+                                            + np.eye(m) * 0.0001), cdesign.T)))
     lstat = np.zeros((l, 1))
 
     for lii in range(l):
-        inv_esig_eta = inv(np.squeeze(esig_eta[:, :, lii]))
+        inv_esig_eta = inv(np.squeeze(esig_eta[:, :, lii]) + np.eye(m) * 0.0001)
         lstat[lii] = np.dot(np.dot(dd[:, lii].T, inv_esig_eta), dd[:, lii])
 
     lstat = omegax * lstat
