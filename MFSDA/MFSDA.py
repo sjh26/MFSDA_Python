@@ -120,7 +120,7 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
             self.checkThreadTimer.stop()
             self.checkThreadTimer.disconnect('timeout()', self.onShapeState)
 
-            CSVFile=open(self.lineEdit_output.directory+'/output.csv', 'wb')
+            CSVFile=open(self.lineEdit_output.directory+'/output.csv', 'w')
             Data=['VTK Files']
             with CSVFile:
                 writer = csv.writer(CSVFile)
@@ -416,7 +416,7 @@ class MFSDALogic(ScriptedLoadableModuleLogic):
         """Function to add a group of the dictionary
         - Add the paths of all the vtk files found in the directory given 
         of a dictionary which will be used to create the CSV file"""
-        directory = self.directoryButton_creationCSVFile.directory.encode('utf-8')
+        directory = self.directoryButton_creationCSVFile.directory
         if directory in self.directoryList:
             index = self.directoryList.index(directory) + 1
             slicer.util.errorDisplay('Path of directory already used for the group ' + str(index))
@@ -651,7 +651,7 @@ class MFSDATest(ScriptedLoadableModuleTest):
         outputPath=output_directory+'/out.vtk'
         argShapes=arguments(pvalues=pvaluesPath, covariates=CovariateNames_currentPath, shape=ShapePvalue_currentPath, efit=efitPath, output=outputPath)
         self.run_Shape(argShapes)
-        CSVFile=open(output_directory+'/output.csv', 'wb')
+        CSVFile=open(output_directory+'/output.csv', 'w')
         Data=['VTK Files']
         with CSVFile:
             writer = csv.writer(CSVFile)
