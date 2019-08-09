@@ -49,7 +49,12 @@ def run_script(input_dir, output_dir):
     # d = coord_mat.shape[1]
     print("+++++++Read the design matrix+++++++")
     design_data_file_name = input_dir + "design_data.txt"
-    design_data = np.loadtxt(design_data_file_name)
+    design_data_tmp = np.loadtxt(design_data_file_name, delimiter=delimiter)
+    if len(design_data_tmp.shape) == 1:
+        design_data = np.reshape(design_data_tmp, (design_data_tmp.shape[0], 1))
+    else:
+        design_data = design_data_tmp
+
     # read the covariate type
     var_type_file_name = input_dir + "var_type.txt"
     var_type = np.loadtxt(var_type_file_name)

@@ -122,7 +122,12 @@ def run_script(args):
     if file_extension == '.csv':
         delimiter=','
     
-    design_data = np.loadtxt(design_data_file_name, delimiter=delimiter)
+    design_data_tmp = np.loadtxt(design_data_file_name, delimiter=delimiter)
+    if len(design_data_tmp.shape) == 1:
+        design_data = np.reshape(design_data_tmp, (design_data_tmp.shape[0], 1))
+    else:
+        design_data = design_data_tmp
+
 
     # read the covariate type
     var_type = getCovariateType(design_data)
