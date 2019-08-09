@@ -131,9 +131,9 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
             self.pushButton_run.connect('clicked(bool)', self.onCSVFile)
             self.pushButton_run.disconnect('clicked(bool)', self.onKillComputationShape)
             parameters = {}
-            parameters["CSVFile"] = self.lineEdit_output.directory+'/output.csv'
-            module = slicer.modules.shapepopulationviewer
-            slicer.cli.run(module, None, parameters, wait_for_completion=True)
+            csvFilePath = self.lineEdit_output.directory+'/output.csv'
+            slicer.modules.shapepopulationviewer.widgetRepresentation().loadCSVFile(csvFilePath)
+            slicer.util.selectModule(slicer.modules.shapepopulationviewer)
 
 
         return
@@ -319,10 +319,9 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
             writer.writerow(Data)
             writer.writerow([self.lineEdit_ShapePvalue.currentPath])
         CSVFile.close()
-        parameters = {}
-        parameters["CSVFile"] = self.lineEdit_output.directory+'/output.csv'
-        module = slicer.modules.shapepopulationviewer
-        slicer.cli.run(module, None, parameters, wait_for_completion=True)
+        csvFilePath = self.lineEdit_output.directory+'/output.csv'
+        slicer.modules.shapepopulationviewer.widgetRepresentation().loadCSVFile(csvFilePath)
+        slicer.util.selectModule(slicer.modules.shapepopulationviewer)
 
         return
 
@@ -346,10 +345,9 @@ class MFSDAWidget(ScriptedLoadableModuleWidget):
             writer.writerow(Data)
             writer.writerow([self.lineEdit_ShapePvalue.currentPath])
         CSVFile.close()
-        parameters = {}
-        parameters["CSVFile"] = self.lineEdit_output.directory+'/output.csv'
-        module = slicer.modules.shapepopulationviewer
-        slicer.cli.run(module, None, parameters, wait_for_completion=True)'''
+        csvFilePath = self.lineEdit_output.directory+'/output.csv'
+        slicer.modules.shapepopulationviewer.widgetRepresentation().loadCSVFile(csvFilePath)
+        slicer.util.selectModule(slicer.modules.shapepopulationviewer)'''
             
 
 
@@ -662,10 +660,9 @@ class MFSDATest(ScriptedLoadableModuleTest):
             writer.writerow(Data)
             writer.writerow([ShapePvalue_currentPath])
         CSVFile.close()
-        parameters = {}
-        parameters["CSVFile"] = output_directory+'/output.csv'
-        module = slicer.modules.shapepopulationviewer
-        slicer.cli.run(module, None, parameters, wait_for_completion=True)
+        csvFilePath = self.lineEdit_output.directory+'/output.csv'
+        slicer.modules.shapepopulationviewer.widgetRepresentation().loadCSVFile(csvFilePath)
+        slicer.util.selectModule(slicer.modules.shapepopulationviewer)
 
     def run_script(self, args):
         """
